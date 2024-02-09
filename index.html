@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <title>Document</title>
+  <style>
+    .card {
+      max-width: 30%;
+      min-width: auto;
+      height: 300px;
+      min-height: 350px;
+      padding: 16px 16px 16px 16px;
+    }
+
+    .navb-cont {
+      background-color: #02093b;
+      min-height: 70px;
+    }
+
+
+    .active {}
+
+    #hold {
+      width: 100%;
+      height: 100vh;
+      background-color: #02093b;
+      display: flex;
+    }
+
+    .create-ticket {
+      width: 40%;
+    }
+
+    .eye-button {
+      border: none !important;
+      border-radius: 50%;
+    }
+
+
+
+    /* .modal {
+      padding: 60px 0 50px 0;
+    } */
+
+    .modal-backdrop {
+      background-color: #02093b;
+    }
+
+    .ticket-title {
+      color: #02093b !important;
+    }
+
+    .edit-ticket-btn {
+      width: 100%;
+      border: none;
+      outline: none;
+      color: #fff;
+      background-color: blue;
+      cursor: pointer;
+      position: relative;
+      z-index: 0;
+      border-radius: 10px;
+    }
+
+    .edit-ticket-btn:before {
+      content: '';
+      background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      background-size: 400%;
+      z-index: -1;
+      filter: blur(5px);
+      width: calc(100% + 4px);
+      height: calc(100% + 4px);
+      animation: glowing 20s linear infinite;
+      opacity: 0;
+      transition: opacity .3s ease-in-out;
+      border-radius: 10px;
+    }
+
+    .edit-ticket-btn:active {
+      color: #000
+    }
+
+    .edit-ticket-btn:active:after {
+      background: transparent;
+    }
+
+    .edit-ticket-btn:hover:before {
+      opacity: 1;
+    }
+
+    .edit-ticket-btn:after {
+      z-index: -1;
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: #111;
+      left: 0;
+      top: 0;
+      border-radius: 10px;
+    }
+
+    @keyframes glowing {
+      0% {
+        background-position: 0 0;
+      }
+
+      50% {
+        background-position: 400% 0;
+      }
+
+      100% {
+        background-position: 0 0;
+      }
+    }
+    #modalBody{
+      text-align: center;
+    
+    }
+
+    #deleteModal1 {
+     
+      text-align: center;
+      align-items: center;
+      padding: 40px;
+      border: 2px solid black;
+      z-index: 9999;
+      box-shadow: 0px 5px 10px rgb(0, 0, 2);
+    }
+
+    #deleteModal i {
+      font-size: 60px;
+      color: red;
+      padding: 20px 40px;
+      border-radius: 50%;
+      margin: -10px 0px 20px 0px;
+      border: 3px solid red;
+    }
+
+    #deleteModal h1 {
+      font-size: 30px;
+    }
+
+    #deleteModal label {
+      font-size: 20px;
+      color: rgb(37, 27, 27);
+    }
+
+    #deleteModal .btn-links {
+      margin: 40px 0 0 20px;
+    }
+
+    .btn-links .cancel,
+    .btn-links .delete {
+      background-color: #ff0000;
+      font-size: 20px;
+      color: white;
+      border: 2px solid black;
+      padding: 10px 13px;
+    }
+
+    .btn-links .cancel {
+      background-color: #002bff;
+      margin-left: -20px;
+
+      border: 2px solid black;
+    }
+
+    .cancel:hover {
+      background-color: #02093b;
+      transition: .10s;
+    }
+
+    .delete:hover {
+      background-color: darkred;
+      transition: .10s;
+    }
+
+      /* loading  */
+    .loading {
+--speed-of-animation: 0.9s;
+  --gap: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  gap: 6px;
+  height: 40px;
+
+}
+
+.loading span {
+  border-radius: 50%;
+  width: 4px;
+  height: 30px;
+  background-color: #002bff;
+  animation: scale var(--speed-of-animation) ease-in-out infinite;
+}
+
+.loading span:nth-child(2) {
+  background-color: #48ff00;
+  animation-delay: -0.8s;
+}
+
+.loading span:nth-child(3) {
+  background-color: #ff0000;
+  animation-delay: -0.7s;
+}
+
+.loading span:nth-child(4) {
+  background-color: #ff00c8;
+  animation-delay: -0.6s;
+}
+
+.loading span:nth-child(5) {
+  background-color: aqua;
+  animation-delay: -0.5s;
+}
+
+.popup {
+      background-color: rgb(157, 83, 83);
+      width: 220px;
+      height: 50px;
+      border-radius: 6px;
+      border: 2px dotted navy;
+      top: 30%;
+      left: 200px;
+      z-index: 402;
+      font-weight: bolder;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #160c0c;
+      transition: all 700ms ease;
+      position: absolute;
+    }
+
+    .hide-popup {
+      transform: translateX(-120%);
+      opacity: 0;
+    }
+
+    .hide {
+      display: none;
+    }
+
+  </style>
+</head>
+
+<body class="bg-secondary">
+  <!-- ------------------------NAVBAR------------------------- -->
+
+  <div class="navb-cont ">
+    <nav class="navbar navbar-expand-lg container fixed-top">
+      <div class="container-fluid ">
+        <!-- <a class="navbar-brand" href="#"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNavc" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button> -->
+        <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarNav">
+          <ul class="navbar-nav ">
+            <li class="nav-item d-flex align-items-center">
+              <a class="nav-link text-white" href="" ><i class="fa fa-house"></i></a>
+              <a class="nav-link rounded-circle" id="btn" href="tick.html" data-toggle="modal" data-target="#myModal"
+                >
+                <i class="fa fa-folder text-danger"></i></a>
+            </li>
+          </ul>
+          <div class="nav-item">
+            <a class="nav-link text-white" href="#">TICKETING APP</a>
+          </div>
+          <div class="nav-item d-flex align-items-center">
+            <a class="nav-link" href="#"> <img
+                src="cartoon-man-with-headphones-jacket-waving-generative-ai_955884-25553.jpg" class="rounded-circle"
+                alt="" width="30" height="30"></a>
+            <h6 class="text-white">welcome</h6>
+          </div>
+
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <!-- ----------------------------card container---------------------- -->
+  <header class="wrapper active" id="wrap">
+    <div class="category-holder">
+      <h3 class="p-3 text-white">HARDWARE PROBLEMS</h3>
+      <div class="hardware-problems d-flex justify-content-between flex-wrap">
+        <!-- card contents -->
+        <div class="container">
+          <div class="card" style="background: #02093b;">
+            <div class="card-title symbol-container d-flex justify-content-between align-items-center">
+
+              <!-- rating icons -->
+              <div class="rating-symbol ">
+                <a href=""><i class="fa fa-heart text-success"></i></a>
+                <a href=""><i class="fa fa-heart text-success"></i></a>
+                <a href=""><i class="fa fa-heart text-success"></i></a>
+                <a href=""><i class="fa fa-heart text-success"></i></a>
+                <a href=""><i class="fa fa-heart text-success"></i></a>
+              </div>
+              <!-- rating icons ends -->
+
+              <div class="second-icons d-flex gap-3">
+                <button class="eye-button" data-bs-toggle="modal" data-bs-target="#myModal" onclick="viewticket()"><i
+                    class="fa fa-eye text-secondary"></i></button>
+                <span class="edit-button" data-bs-toggle="modal" data-bs-target="#editModal" onclick="editTicket()"><i
+                    class="fa fa-edit text-secondary"></i></span>
+                <span class="delete-button" data-bs-toggle="modal" data-bs-target="#deletModal"><i
+                    class="fa fa-x text-danger"></i></span>
+              </div>
+
+            </div>
+            <!-- symbols ends -->
+
+            <div class="card-subtitle border-bottom pb-1 mt-2 text-white fs-5 border-success">My PC has Damaged</div>
+            <div class="text-white card-text">I am currently facing problems with my pc, unfortunately
+              this has affected my progress with the current project</div>
+            <div class="mt-5">
+              <div class="ticket-date d-flex justify-content-between-bottom mt-5 fs-4 fw-bolder text-white">12/12/2023.
+                12:34pm </div>
+              <!-- progress range -->
+              <div class="range d-flex justify-content-between text-white">
+                <div><span>0%</span>
+                  <input type="range" value="100" class="ticket-range">
+                  <span>100%</span>
+                </div>
+                <div
+                  class="ticket-status rounded-pill text-white bg-success d-flex justify-content-center p-1 align-items-center">
+                  done</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- hardware problems ends -->
+
+
+      <!-- -----------SOFTWARE PROBLEM START -->
+
+      <h3 class="p-3 text-center">SOFTWARE PROBLEMS</h3>
+      <div class="software-problems">
+        <!-- card contents -->
+        <div class="container">
+          <div class="card" style="background: #02093b;">
+            <div class="card-title symbol-container d-flex justify-content-between align-items-center">
+
+              <!-- rating icons -->
+              <div class="rating-symbol ">
+                <i class="fa fa-heart text-success"></i>
+                <i class="fa fa-heart text-success"></i>
+                <i class="fa fa-heart text-success"></i>
+                <i class="fa fa-heart text-success"></i>
+                <i class="fa fa-heart text-success"></i>
+              </div>
+              <!-- rating icons ends -->
+
+              <div class="second-icons d-flex gap-3">
+                <span class="eye-button" data-bs-toggle="modal" data-bs-target="#myModal" onclick="viewticket()"><i
+                    class="fa fa-eye text-secondary"></i></span>
+                <span class="edit-button" data-bs-toggle="modal" data-bs-target="#editModal" onclick="editTicket()"><i
+                    class="fa fa-edit text-secondary"></i></span>
+                <span class="delete-button" data-bs-toggle="modal" data-bs-target="#deletModal"><i
+                    class="fa fa-x text-danger"></i></span>
+                    
+              </div>
+
+            </div>
+            <!-- symbols ends -->
+
+            <div class="card-subtitle border-bottom pb-1 mt-2 text-white fs-5 border-success">My PC has Damaged</div>
+            <div class="text-white card-text">I am currently facing problems with my pc, unfortunately
+              this has affected my progress with the current project</div>
+            <div class="mt-5">
+              <div class="ticket-date d-flex justify-content-between-bottom mt-5 fs-4 fw-bolder text-white">12/12/2023.
+                12:34pm </div>
+              <!-- progress range -->
+              <div class="range d-flex justify-content-between text-white">
+                <div><span>0%</span>
+                  <input type="range" value="100" class="ticket-range">
+                  <span>100%</span>
+                </div>
+                <div
+                  class="ticket-status rounded-pill text-white bg-success d-flex justify-content-center p-1 align-items-center">
+                  done</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end of software problem -->
+
+
+
+      <!-- START OF PROJECT PROBLEM -->
+
+      <h3 class="p-3 text-center">PROJECT PROBLEMS</h3>
+      <div class="project-problems">
+        <!-- card contents -->
+        
+        <div class="container">
+          <div class="card" style="background: #02093b;">
+            <div class="card-title symbol-container d-flex justify-content-between align-items-center">
+
+              <!-- rating icons -->
+              <div class="rating-symbol ">
+                <i class="fa fa-heart text-success"></i>
+                <i class="fa fa-heart text-success"></i>
+                <i class="fa fa-heart text-success"></i>
+                <i class="fa fa-heart text-success"></i>
+                <i class="fa fa-heart text-success"></i>
+              </div>
+              <!-- rating icons ends -->
+
+              <div class="second-icons d-flex gap-3">
+                <span class="eye-button" data-bs-toggle="modal" data-bs-target="#myModal" onclick="viewticket()"><i
+                    class="fa fa-eye text-secondary"></i></span>
+                <span class="edit-button" data-bs-toggle="modal" data-bs-target="#editModal" onclick="editTicket()"><i
+                    class="fa fa-edit text-secondary"></i></span>
+                <span class="delete-button" data-bs-toggle="modal" data-bs-target="#deletModal" ><i
+                    class="fa fa-x text-danger"></i></span>
+                    
+              </div>
+
+            </div>
+            <!-- symbols ends -->
+
+            <div class="card-subtitle border-bottom pb-1 mt-2 text-white fs-5 border-success">My PC has Damaged</div>
+            <div class="text-white card-text">I am currently facing problems with my pc, unfortunately
+              this has affected my progress with the current project</div>
+            <div class="mt-5">
+              <div class="ticket-date d-flex justify-content-between-bottom mt-5 fs-4 fw-bolder text-white">12/12/2023.
+                12:34pm </div>
+              <!-- progress range -->
+              <div class="range d-flex justify-content-between text-white">
+                <div><span>0%</span>
+                  <input type="range" value="100" class="ticket-range">
+                  <span>100%</span>
+                </div>
+                <div
+                  class="ticket-status rounded-pill text-white bg-success d-flex justify-content-center p-1 align-items-center">
+                  done</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- ---------------------TICKET DETAILS---------------- -->
+
+
+  <div class="ticket-details-wrapper">
+    <div class="modal" id="myModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="Modal title">Ticket Details</h1>
+            <button type="button" class="btn-close btn btn-danger" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+
+
+            <div class="d-flex flex-column d-flex flex-column border-bottom border-dark border-1 text-success">
+              <p>
+                <span class="fw-bold">Ticket Id:</span>
+                <span class="view-ticket-id text-primary">44</span>
+              </p>
+              <p>
+                <span class="fw-bold">Ticket Title: </span>
+                <span id="view-ticket-title">Fix My Laptop</span>
+              </p>
+
+              <p>
+                <span class="fw-bold"> Ticket Category:</span>
+                <span id="view-ticket-category">Software-problem</span>
+              </p>
+
+              <p>
+                <span class="fw-bold">Ticket Priority:</span>
+                <span id="view-ticket-priority">4</span>
+              </p>
+
+              <p>
+                <span class="fw-bold">Ticket Progress:</span>
+                <span id="view-ticket-progress">50%</span>
+              </p>
+
+              <p>
+                <span class="fw-bold">Ticket Status:</span>
+                <span id="view-ticket-status">not-done</span>
+              </p>
+
+              <p>
+                <span class="fw-bold"> Ticket date: </span>
+                <span id="view-ticket-date" class="text-danger fw-bolder">10/10/2023. 12:34pm</span>
+              </p>
+              <p class="ticket-desc">
+                I'm experiencing an issue with my printer as it has suddenly stopped
+                working. I'm currently troubleshooting the problem to
+              </p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ------------EDIT TICKET-------- -->
+
+
+
+    <!-- Modal -->
+    <div class="modal" id="editModal">
+      <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+          <div class="modal-header">
+
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+
+
+
+            <section class="ticket-holder d-flex justify-content-center" id="hold">
+              <div class="create-ticket">
+                <h1 class="modal-title fs-4 fw-bolder text-primary" id="edit-ticket-title">Edit Ticket</h1>
+                <form action="" class="edit-ticket-form d-flex flex-column gap-2">
+                  <div class="gap-2 d-flex flex-column">
+                    <label class="text-danger form-label fw-bolder">Title
+                      <input type="text" id="edit-title" class="form-control" required>
+                    </label>
+                  </div>
+
+
+                  <div class="gap-2 d-flex flex-column">
+                    <label class="text-danger form-label fw-bolder">Description
+                      <textarea required class="form-control" id="Description" cols="30" rows="4"></textarea>
+                    </label>
+                  </div>
+
+                  <div class="gap-2 d-flex flex-column">
+                    <label class="text-danger form-label fw-bolder">Category
+                      <select class="form-control" id="select-category">
+                        <option value="hardware-problems">Hardware-problems</option>
+                        <option value="software-problems">Software-problems</option>
+                        <option value="project">project</option>
+                      </select>
+                      </select>
+                  </div>
+
+                  <div class="gap-2 d-flex flex-column">
+                    <div class="flex-row gap-2 d-flex">
+                      <label class="text-danger form-label fw-bolder" id="priority">Priority</label>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" value="1" name="priority" id="priority-one"
+                          checked="">
+                        <label class="text-white form-check-label" for="priority-one">
+                          1
+                        </label>
+                      </div>
+
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" value="2" name="priority" id="priority-two"
+                          checked="">
+                        <label class="text-white form-check-label" for="priority-two">
+                          2
+                        </label>
+                      </div>
+
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" value="3" name="priority" id="priority-three"
+                          checked="">
+                        <label class="text-white form-check-label" for="priority-three">
+                          3
+                        </label>
+                      </div>
+
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" value="4" name="priority" id="priority-four"
+                          checked="">
+                        <label class="text-white form-check-label" for="priority-four">
+                          4
+                        </label>
+                      </div>
+
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" value="5" name="priority" id="priority-five"
+                          checked="">
+                        <label class="text-white form-check-label" for="priority-five">
+                          5
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="text-field d-flex flex-column gap-2">
+                    <label class="text-danger fw-bold">Progress</label>
+                    <div class="d-flex align-items-center gap-2">
+                      <!-- <span class="text-white">0%</span> -->
+                      <input type="range" class="form-range" id="edit-ticket-progress" max="100" value="0" />
+                      <span class="text-white edit-progress-bar">0%</span>
+                    </div>
+                  </div>
+
+                  <div class="text-field d-flex flex-column gap-2">
+                    <label class="text-danger fw-bold" id="status">Status</label>
+                    <select class="form-control" id="edit-status">
+                      <option value="not-started" class="options1">Not Started</option>
+                      <option value="started" class="options2">Started</option>
+                      <option value="done" class="options3">Done</option>
+                    </select>
+                  </div>
+
+                  <div class="text-field d-flex flex-column gap-2 mt-2">
+                    <button type="submit"
+                      class="btn btn-primary d-flex align-items-center justify-content-center gap-4">
+                      <span class="edit-ticket-btn">Update Ticket</span>
+                      <div class="loading hide">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </section>
+            <div class="popup hide-popup">
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- -----------Delete Ticket -->
+
+<section class="hide-btn delete-ticket-btn">
+    <div class="modal" tabindex="-1" id="deleteModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title d-flex align-items-center">Delete Ticket</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="modalBody">
+            <i class="fas fa-exclamation"></i>
+            <h1>Your account will be deleted permanaently!</h1>
+            <label>Are you sure you want to proceed</label>
+            <div class="btn-links">
+              <button type="button" class="cancel-btn">Cancel</button>
+             <button class="delete-btn"> Delete</button>
+            </div>
+          </div>
+          <div class="modal-footer">
+          
+      
+          </div>
+        </div>
+      </div>
+    </div>
+    </section>
+
+
+
+
+
+
+
+
+
+<!-- 
+    <div class="delete-ticket" id="deleteModal">
+      <i class="fas fa-exclamation"></i>
+      <h1>Your account will be deleted permanaently!</h1>
+      <label>Are you sure you want to proceed</label>
+      <div class="btn-links">
+        <a href="" class="cancel">Cancel</a>
+        <a href="" class="delete">Delete</a>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+
+      </div>
+
+    </div> -->
+
+    <script>
+      // swal("Good job!", "You clicked the button!", "success");
+    </script>
+
+    <script src="ticket.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+</body>
+
+</html>
